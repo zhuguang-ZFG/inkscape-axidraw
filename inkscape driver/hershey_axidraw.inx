@@ -1,36 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <name>单线字体文本</name>
   <id>org.evilmad.text.hershey-axi</id>
   <dependency type="executable" location="extensions">hershey.py</dependency>
   <param name="tab" type="notebook">
-    <page name="render" gui-text="生成文本">
+    <page name="render" gui-text="鐢熸垚鏂囨湰">
 
 <label indent="1" appearance="header" xml:space="preserve">
-单线字体文本
+鍗曠嚎瀛椾綋鏂囨湰
 </label>
 
-<label indent="2" xml:space="preserve">将普通文本替换为单线描边字体的工具
-
-版本 3.0.2，2019-09-07
+<label indent="2" xml:space="preserve">灏嗘櫘閫氭枃鏈浛鎹负鍗曠嚎鎻忚竟瀛椾綋鐨勫伐鍏?
+鐗堟湰 3.0.2锛?019-09-07
 
 
 </label>
 
-	<param indent="1" name="fontface" type="optiongroup" appearance="combo" gui-text="字体：">
-		<option value="HersheySans1">Hershey Sans 单线</option>
-		<option value="HersheySansMed">Hershey Sans 中等</option>
+	<param indent="1" name="fontface" type="optiongroup" appearance="combo" gui-text="瀛椾綋锛?>
+		<option value="HersheySans1">Hershey Sans 鍗曠嚎</option>
+		<option value="HersheySansMed">Hershey Sans 涓瓑</option>
 
-		<option value="HersheySerifMed">Hershey Serif 中等</option>
-		<option value="HersheySerifMedItalic">Hershey Serif 中等斜体</option>
+		<option value="HersheySerifMed">Hershey Serif 涓瓑</option>
+		<option value="HersheySerifMedItalic">Hershey Serif 涓瓑鏂滀綋</option>
 
-		<option value="HersheySerifBold">Hershey Serif 粗体</option>
-		<option value="HersheySerifBoldItalic">Hershey Serif 粗体斜体</option>
+		<option value="HersheySerifBold">Hershey Serif 绮椾綋</option>
+		<option value="HersheySerifBoldItalic">Hershey Serif 绮椾綋鏂滀綋</option>
 
-		<option value="HersheyScript1">Hershey 手写体单线</option>
-		<option value="HersheyScriptMed">Hershey 手写体中等</option>
+		<option value="HersheyScript1">Hershey 鎵嬪啓浣撳崟绾?/option>
+		<option value="HersheyScriptMed">Hershey 鎵嬪啓浣撲腑绛?/option>
 
-		<option value="HersheyGothEnglish">Hershey 英文哥特体</option>
+		<option value="HersheyGothEnglish">Hershey 鑻辨枃鍝ョ壒浣?/option>
 
 		<option value="EMSAllure">EMS Allure</option>
 
@@ -38,69 +37,62 @@
 		<option value="EMSFelix">EMS Felix</option>
 
 		<option value="EMSNixish">EMS Nixish</option>
-		<option value="EMSNixishItalic">EMS Nixish 斜体</option>
+		<option value="EMSNixishItalic">EMS Nixish 鏂滀綋</option>
 
 		<option value="EMSOsmotron">EMS Osmotron</option>
 		<option value="EMSReadability">EMS Readability</option>
-		<option value="EMSReadabilityItalic">EMS Readability 斜体</option>
+		<option value="EMSReadabilityItalic">EMS Readability 鏂滀綋</option>
 		<option value="EMSTech">EMS Tech</option>
 
-		<option value="other">其他（下方指定）</option>
+		<option value="other">鍏朵粬锛堜笅鏂规寚瀹氾級</option>
       </param>
 
 <label xml:space="preserve">
-其他 SVG 字体名称或路径（仅在上方选择“其他”时使用）：
+鍏朵粬 SVG 瀛椾綋鍚嶇О鎴栬矾寰勶紙浠呭湪涓婃柟閫夋嫨鈥滃叾浠栤€濇椂浣跨敤锛夛細
 </label>
-<param name="otherfont" type="string" indent="2" gui-text="名称/路径：">HersheySans1</param>
+<param name="otherfont" type="string" indent="2" gui-text="鍚嶇О/璺緞锛?>HersheySans1</param>
 
-<param name="preserve" indent="4" type="bool" gui-text="保留原始文本" >false</param>
+<param name="preserve" indent="4" type="bool" gui-text="淇濈暀鍘熷鏂囨湰" >false</param>
 
 </page>
 
-<page name="utilities" gui-text="工具">
+<page name="utilities" gui-text="宸ュ叿">
   <label appearance="header" xml:space="preserve">
-单线字体附加工具
+鍗曠嚎瀛椾綋闄勫姞宸ュ叿
   </label>
 
-  <param indent="2" name="action" type="optiongroup" appearance="combo" gui-text="操作：">
-    <option value="sample"   >生成字体示例表</option>
-    <option value="table"    >生成所选字体字形表</option>
+  <param indent="2" name="action" type="optiongroup" appearance="combo" gui-text="鎿嶄綔锛?>
+    <option value="sample"   >鐢熸垚瀛椾綋绀轰緥琛?/option>
+    <option value="table"    >鐢熸垚鎵€閫夊瓧浣撳瓧褰㈣〃</option>
   </param>
 
   <label xml:space="preserve">
 
-生成字体示例表时使用的文本：</label>
-<param indent="2" name="text" type="string" gui-text="文本：">
+鐢熸垚瀛椾綋绀轰緥琛ㄦ椂浣跨敤鐨勬枃鏈細</label>
+<param indent="2" name="text" type="string" gui-text="鏂囨湰锛?>
 The Quick Brown Fox Jumps Over a Lazy Dog</param>
 
 </page>
 
 
-    <page name="help" gui-text="关于">
+    <page name="help" gui-text="鍏充簬">
       <label xml:space="preserve">
-这个扩展可将文档中的全部文本，或已选中文本，转换为适合绘图机使用的“单线字体/雕刻字体”路径。
-
-普通轮廓字体（如 TrueType）依赖填充轮廓内部区域来显示文字；而单线字体只由单条线段或笔画组成，更接近手写轨迹。
-
-这类字体非常适合生成可被笔式绘图机、雕刻机和数控设备高效跟随的文本路径。
-
-完整用户指南可参考：
+杩欎釜鎵╁睍鍙皢鏂囨。涓殑鍏ㄩ儴鏂囨湰锛屾垨宸查€変腑鏂囨湰锛岃浆鎹负閫傚悎缁樺浘鏈轰娇鐢ㄧ殑鈥滃崟绾垮瓧浣?闆曞埢瀛椾綋鈥濊矾寰勩€?
+鏅€氳疆寤撳瓧浣擄紙濡?TrueType锛変緷璧栧～鍏呰疆寤撳唴閮ㄥ尯鍩熸潵鏄剧ず鏂囧瓧锛涜€屽崟绾垮瓧浣撳彧鐢卞崟鏉＄嚎娈垫垨绗旂敾缁勬垚锛屾洿鎺ヨ繎鎵嬪啓杞ㄨ抗銆?
+杩欑被瀛椾綋闈炲父閫傚悎鐢熸垚鍙绗斿紡缁樺浘鏈恒€侀洉鍒绘満鍜屾暟鎺ц澶囬珮鏁堣窡闅忕殑鏂囨湰璺緞銆?
+瀹屾暣鐢ㄦ埛鎸囧崡鍙弬鑰冿細
   http://wiki.evilmadscientist.com/hershey
 
-若需要更详细帮助，请在本页保持选中状态后点击“应用”。
-
+鑻ラ渶瑕佹洿璇︾粏甯姪锛岃鍦ㄦ湰椤典繚鎸侀€変腑鐘舵€佸悗鐐瑰嚮鈥滃簲鐢ㄢ€濄€?
   </label>
 </page>
 
 
-<page name="info3" gui-text="致谢">
+<page name="info3" gui-text="鑷磋阿">
 <label xml:space="preserve">
-内置的经典 Hershey 字体源自 A. V. Hershey 博士的工作。
-
-本发行版中附带的现代 “EMS” 字体，源自遵循 SIL Open Font License 授权的字体衍生版本。
-
-完整致谢与许可信息，请查看随发行包附带 SVG 字体文件中的版权说明。
-</label>
+鍐呯疆鐨勭粡鍏?Hershey 瀛椾綋婧愯嚜 A. V. Hershey 鍗氬＋鐨勫伐浣溿€?
+鏈彂琛岀増涓檮甯︾殑鐜颁唬 鈥淓MS鈥?瀛椾綋锛屾簮鑷伒寰?SIL Open Font License 鎺堟潈鐨勫瓧浣撹鐢熺増鏈€?
+瀹屾暣鑷磋阿涓庤鍙俊鎭紝璇锋煡鐪嬮殢鍙戣鍖呴檮甯?SVG 瀛椾綋鏂囦欢涓殑鐗堟潈璇存槑銆?</label>
 
 </page>
 </param>
@@ -108,10 +100,13 @@ The Quick Brown Fox Jumps Over a Lazy Dog</param>
   <effect needs-live-preview="true">
     <object-type>all</object-type>
     <effects-menu>
-      <submenu name="DynamicNest 工具"/>
+      <submenu name="AxiDraw 工具"/>
     </effects-menu>
   </effect>
     <script>
       <command location="extensions" interpreter="python">hershey.py</command>
     </script>
 </inkscape-extension>
+
+
+

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <name>路径优化（兼容旧版）</name>
-  <id>command.evilmadscientist.axidraw.reorder</id>
-  <dependency type="executable" location="extensions">axidraw_svg_reorder.py</dependency>
+  <id>command.dynamicnest.reorder</id>
+  <dependency type="executable" location="extensions">dynamicnest_svg_reorder.py</dependency>
 
 <label indent="5" appearance="header">璺緞浼樺寲宸ュ叿</label>
 
@@ -23,13 +23,12 @@ v2.8锛岀増鏉冩墍鏈?2023 Evil Mad Scientist</label>
 <effect needs-live-preview="false">
     <object-type>all</object-type>
     <effects-menu>
-      <submenu name="AxiDraw 工具"/>
+      <submenu name="DynamicNest 工具"/>
     </effects-menu>
   </effect>
   <script>
-    <command location="extensions" interpreter="python">axidraw_svg_reorder.py</command>
+    <command location="extensions" interpreter="python">dynamicnest_svg_reorder.py</command>
   </script>
 </inkscape-extension>
-
 
 

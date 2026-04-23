@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -32,12 +32,12 @@ import time
 import signal
 from threading import Event
 
-from axidrawinternal import axidraw   # https://github.com/evil-mad/axidraw
-from axidrawinternal import serial_utils
-from axidrawinternal import i18n
-from axidrawinternal.axidraw_options import common_options
+from dynamicnestinternal import axidraw   # https://github.com/evil-mad/axidraw
+from dynamicnestinternal import serial_utils
+from dynamicnestinternal import i18n
+from dynamicnestinternal.axidraw_options import common_options
 
-from axidrawinternal.plot_utils_import import from_dependency_import # plotink
+from dynamicnestinternal.plot_utils_import import from_dependency_import # plotink
 inkex = from_dependency_import('ink_extensions.inkex')
 exit_status = from_dependency_import('ink_extensions_utils.exit_status')
 message = from_dependency_import('ink_extensions_utils.message')
@@ -61,7 +61,7 @@ class AxiDrawWrapperClass( inkex.Effect ):
     def __init__( self, default_logging = True, params = None ):
         if params is None:
             # use default configuration file
-            params = import_module("axidrawinternal.axidraw_conf") # Configuration file
+            params = import_module("dynamicnestinternal.axidraw_conf") # Configuration file
         self.params = params
         i18n.init_gettext(params=params)
         self.status_code = 0
@@ -293,3 +293,4 @@ class AxiDrawWrapperClass( inkex.Effect ):
 if __name__ == '__main__':
     e = AxiDrawWrapperClass()
     exit_status.run(e.affect)
+

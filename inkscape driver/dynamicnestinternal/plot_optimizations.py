@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -50,9 +50,9 @@ These functions include:
 import random
 import copy
 import math
-from axidrawinternal.plot_utils_import import from_dependency_import # plotink
+from dynamicnestinternal.plot_utils_import import from_dependency_import # plotink
 
-path_objects = from_dependency_import('axidrawinternal.path_objects')
+path_objects = from_dependency_import('dynamicnestinternal.path_objects')
 plot_utils = from_dependency_import('plotink.plot_utils')
 rtree = from_dependency_import('plotink.rtree')
 spatial_grid = from_dependency_import('plotink.spatial_grid')
@@ -685,3 +685,4 @@ def reorder(digest, reverse, start=None):
         layers_reordered += 1
 
     return {"layers_reordered": layers_reordered, "final_point": vertex}
+

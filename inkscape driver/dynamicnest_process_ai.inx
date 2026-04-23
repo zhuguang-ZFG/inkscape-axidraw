@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
       <name>处理 Illustrator SVG</name>
-      <id>command.evilmadscientist.process_ai</id>
+      <id>command.dynamicnest.process-ai</id>
       <label appearance="header" indent="2">澶勭悊 Illustrator SVG v1.1</label>
       <label xml:space="preserve" indent="1">
 鎵撳紑 Adobe Illustrator 瀵煎嚭鐨?SVG 鏂囦欢鍚庯紝鍙繍琛屾湰鎵╁睍瀹屾垚浠ヤ笅澶勭悊锛?
@@ -21,13 +21,12 @@
       <effect needs-live-preview="false">
         <object-type>all</object-type>
         <effects-menu>
-        <submenu name="AxiDraw 工具"/>
+        <submenu name="DynamicNest 工具"/>
         </effects-menu>
     </effect>
       <script>
-        <command location="inx" interpreter="python">process_ai.py</command>
+        <command location="inx" interpreter="python">dynamicnest_process_ai.py</command>
       </script>
 </inkscape-extension>
-
 
 

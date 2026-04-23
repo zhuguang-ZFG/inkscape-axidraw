@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <name>濉厖绾跨敓鎴?/name>
-  <id>command.evilmadscientist.axidraw_hatch</id>
+  <id>command.dynamicnest.hatch</id>
   <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
-  <dependency type="executable" location="extensions">eggbot_hatch.py</dependency>
+  <dependency type="executable" location="extensions">dynamicnest_hatch.py</dependency>
 
   <param name="tab" type="notebook">
     <page name="splash" gui-text="濉厖绾跨敓鎴?>
@@ -50,14 +50,13 @@
   <effect needs-live-preview="true">
     <object-type>all</object-type>
     <effects-menu>
-      <submenu name="AxiDraw 工具"/>
+      <submenu name="DynamicNest 工具"/>
     </effects-menu>
   </effect>
 
   <script>
-    <command location="extensions" interpreter="python">eggbot_hatch.py</command>
+    <command location="extensions" interpreter="python">dynamicnest_hatch.py</command>
   </script>
 </inkscape-extension>
-
 
 

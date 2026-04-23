@@ -1,4 +1,4 @@
-# coding=utf-8
+﻿# coding=utf-8
 #
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
@@ -40,8 +40,8 @@ The classes defined by this module are:
 '''
 import re
 import time
-from axidrawinternal import serial_utils
-from axidrawinternal.plot_utils_import import from_dependency_import # plotink
+from dynamicnestinternal import serial_utils
+from dynamicnestinternal.plot_utils_import import from_dependency_import # plotink
 plot_utils = from_dependency_import('plotink.plot_utils')
 ebb_serial = from_dependency_import('plotink.ebb_serial')  # https://github.com/evil-mad/plotink
 ebb_motion = from_dependency_import('plotink.ebb_motion')
@@ -543,3 +543,4 @@ class PenHandler:
             ebb_serial.command(ad_ref.plot_status.port, 'SC,8,8\r') # 8 channels of servo PWM
             ebb_motion.servo_timeout(ad_ref.plot_status.port, ad_ref.params.servo_timeout,\
                 None, False) # Power timeout is only applicable to standard servo
+

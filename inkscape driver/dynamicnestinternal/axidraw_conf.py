@@ -1,4 +1,4 @@
-# axidraw_conf.py
+﻿# axidraw_conf.py
 # Part of the AxiDraw driver software
 #
 # https://github.com/evil-mad/axidraw
@@ -339,3 +339,4 @@ curve_tolerance = 0.002 # Curve representation tolerance, inches. Default: 0.002
 #  Larger values of segment_supersample_tolerance give smoother plotting along paths that
 #  were created with too many vertices. A value of 0 will disable supersampling.
 segment_supersample_tolerance = curve_tolerance / 10 # default: curve_tolerance / 10
+

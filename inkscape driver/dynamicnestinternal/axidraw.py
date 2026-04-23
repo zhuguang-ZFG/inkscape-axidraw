@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -45,22 +45,22 @@ except Exception:  # pragma: no cover
 
 from lxml import etree
 
-from axidrawinternal.axidraw_options import common_options, versions
+from dynamicnestinternal.axidraw_options import common_options, versions
 
-from axidrawinternal import path_objects
-from axidrawinternal import digest_svg
-from axidrawinternal import boundsclip
-from axidrawinternal import plot_optimizations
-from axidrawinternal import plot_status
-from axidrawinternal import pen_handling
-from axidrawinternal import plot_warnings
-from axidrawinternal import serial_utils
-from axidrawinternal import motion
-from axidrawinternal import dripfeed
-from axidrawinternal import preview
-from axidrawinternal import i18n
+from dynamicnestinternal import path_objects
+from dynamicnestinternal import digest_svg
+from dynamicnestinternal import boundsclip
+from dynamicnestinternal import plot_optimizations
+from dynamicnestinternal import plot_status
+from dynamicnestinternal import pen_handling
+from dynamicnestinternal import plot_warnings
+from dynamicnestinternal import serial_utils
+from dynamicnestinternal import motion
+from dynamicnestinternal import dripfeed
+from dynamicnestinternal import preview
+from dynamicnestinternal import i18n
 
-from axidrawinternal.plot_utils_import import from_dependency_import # plotink
+from dynamicnestinternal.plot_utils_import import from_dependency_import # plotink
 simplepath = from_dependency_import('ink_extensions.simplepath')
 simplestyle = from_dependency_import('ink_extensions.simplestyle')
 cubicsuperpath = from_dependency_import('ink_extensions.cubicsuperpath')
@@ -84,7 +84,7 @@ class AxiDraw(inkex.Effect):
 
     def __init__(self, default_logging=True, user_message_fun=message.emit, params=None):
         if params is None:
-            params = import_module("axidrawinternal.axidraw_conf") # Default configuration file
+            params = import_module("dynamicnestinternal.axidraw_conf") # Default configuration file
         self.params = params
         self._runtime_grbl_param_names = (
             "grbl_pen_up_cmd",
@@ -272,7 +272,7 @@ class AxiDraw(inkex.Effect):
         if slow_feed > 0 or settle_ms > 0:
             self.user_message_fun(
                 gettext.gettext(
-                    "低速落笔保护已启用：落笔速度 {0:.0f} mm/min，触纸缓冲 {1} ms。").format(
+                    "浣庨€熻惤绗斾繚鎶ゅ凡鍚敤锛氳惤绗旈€熷害 {0:.0f} mm/min锛岃Е绾哥紦鍐?{1} ms銆?).format(
                         slow_feed,
                         settle_ms))
 
@@ -335,29 +335,29 @@ class AxiDraw(inkex.Effect):
         origin = serial_utils._normalize_coordinate_origin(
             getattr(self.plot_status, "grbl_coordinate_origin", "bottom_left"))
         origin_label_map = {
-            "top_left": "左上",
-            "top_right": "右上",
-            "bottom_left": "左下",
-            "bottom_right": "右下",
-            "center": "中心",
+            "top_left": "宸︿笂",
+            "top_right": "鍙充笂",
+            "bottom_left": "宸︿笅",
+            "bottom_right": "鍙充笅",
+            "center": "涓績",
         }
 
         def _axis_label(mapped):
             x_val, y_val = mapped
             if abs(x_val) >= abs(y_val):
-                return "机器 X+" if x_val >= 0 else "机器 X-"
-            return "机器 Y+" if y_val >= 0 else "机器 Y-"
+                return "鏈哄櫒 X+" if x_val >= 0 else "鏈哄櫒 X-"
+            return "鏈哄櫒 Y+" if y_val >= 0 else "鏈哄櫒 Y-"
 
         return (
-            f"原点模式={origin_label_map.get(origin, origin)}；逻辑 X+ -> {_axis_label(map_x)}，"
-            f"逻辑 Y+ -> {_axis_label(map_y)}"
+            f"鍘熺偣妯″紡={origin_label_map.get(origin, origin)}锛涢€昏緫 X+ -> {_axis_label(map_x)}锛?
+            f"閫昏緫 Y+ -> {_axis_label(map_y)}"
         )
 
     def _describe_grbl_coordinate_model(self):
         """Return a short description of the active working-origin coordinate model."""
         if bool(getattr(self.plot_status, "grbl_xy_zeroed", False)):
-            return "当前坐标模型：以当前点作为工作原点 0,0；先按原点模式解释逻辑坐标方向，再叠加 X/Y 反转与对调；不会重写 G53 机器坐标。"
-        return "当前坐标模型：尚未把当前点设为工作原点；先按原点模式解释工作坐标方向，再叠加 X/Y 反转与对调；G53 机器坐标不参与映射。"
+            return "褰撳墠鍧愭爣妯″瀷锛氫互褰撳墠鐐逛綔涓哄伐浣滃師鐐?0,0锛涘厛鎸夊師鐐规ā寮忚В閲婇€昏緫鍧愭爣鏂瑰悜锛屽啀鍙犲姞 X/Y 鍙嶈浆涓庡璋冿紱涓嶄細閲嶅啓 G53 鏈哄櫒鍧愭爣銆?
+        return "褰撳墠鍧愭爣妯″瀷锛氬皻鏈妸褰撳墠鐐硅涓哄伐浣滃師鐐癸紱鍏堟寜鍘熺偣妯″紡瑙ｉ噴宸ヤ綔鍧愭爣鏂瑰悜锛屽啀鍙犲姞 X/Y 鍙嶈浆涓庡璋冿紱G53 鏈哄櫒鍧愭爣涓嶅弬涓庢槧灏勩€?
 
     def _sync_plot_status_axis_mapping_from_options(self):
         """Copy current UI/runtime axis mapping options into plot_status before status messages."""
@@ -501,7 +501,7 @@ class AxiDraw(inkex.Effect):
                 return
             if self.options.manual_cmd == "list_names":
                 self.user_message_fun(gettext.gettext(
-                    "当前绘图机版插件不支持设备昵称列表。"))
+                    "褰撳墠缁樺浘鏈虹増鎻掍欢涓嶆敮鎸佽澶囨樀绉板垪琛ㄣ€?))
                 return
 
         if self.options.mode == "resume":
@@ -713,7 +713,7 @@ class AxiDraw(inkex.Effect):
             info_lines = serial_utils.grbl_get_identity(
                 self.plot_status,
                 timeout_s=max(1.0, float(self.options.grbl_command_timeout)))
-            self.user_message_fun(f"端口: {getattr(self.plot_status, 'port_name', 'n/a')}")
+            self.user_message_fun(f"绔彛: {getattr(self.plot_status, 'port_name', 'n/a')}")
             if info_lines:
                 self.plot_status.fw_version = info_lines[0]
                 for line in info_lines:
@@ -732,7 +732,7 @@ class AxiDraw(inkex.Effect):
                     timeout_s=max(1.0, float(self.options.grbl_command_timeout)))
                 if info_lines:
                     self.plot_status.fw_version = info_lines[0]
-                    self.user_message_fun(f"端口: {getattr(self.plot_status, 'port_name', 'n/a')}")
+                    self.user_message_fun(f"绔彛: {getattr(self.plot_status, 'port_name', 'n/a')}")
                     for line in info_lines:
                         self.user_message_fun(line)
                 else:
@@ -852,12 +852,12 @@ class AxiDraw(inkex.Effect):
         def _emit_status_snapshot():
             positions = serial_utils.grbl_get_positions(self.plot_status, timeout_s=0.6)
             self.user_message_fun(
-                f"状态: {positions['state'] or 'n/a'} | "
-                f"逻辑机械坐标(in): {positions['mpos'] or 'n/a'} | "
-                f"逻辑工作坐标(in): {positions['wpos'] or 'n/a'}")
+                f"鐘舵€? {positions['state'] or 'n/a'} | "
+                f"閫昏緫鏈烘鍧愭爣(in): {positions['mpos'] or 'n/a'} | "
+                f"閫昏緫宸ヤ綔鍧愭爣(in): {positions['wpos'] or 'n/a'}")
             self.user_message_fun(
-                f"物理机械坐标(in): {positions['mpos_phys'] or 'n/a'} | "
-                f"物理工作坐标(in): {positions['wpos_phys'] or 'n/a'}")
+                f"鐗╃悊鏈烘鍧愭爣(in): {positions['mpos_phys'] or 'n/a'} | "
+                f"鐗╃悊宸ヤ綔鍧愭爣(in): {positions['wpos_phys'] or 'n/a'}")
             self.user_message_fun(self._describe_grbl_axis_mapping())
             self.user_message_fun(self._describe_grbl_coordinate_model())
             return positions
@@ -910,20 +910,20 @@ class AxiDraw(inkex.Effect):
             dir_mask = self.plot_status.grbl_settings.get(3, "n/a")
             homing_mask = self.plot_status.grbl_settings.get(23, "n/a")
             positions = serial_utils.grbl_get_positions(self.plot_status, timeout_s=0.6)
-            self.user_message_fun(f"Grbl $3（方向反转）: {dir_mask}")
-            self.user_message_fun(f"Grbl $23（回零方向反转）: {homing_mask}")
+            self.user_message_fun(f"Grbl $3锛堟柟鍚戝弽杞級: {dir_mask}")
+            self.user_message_fun(f"Grbl $23锛堝洖闆舵柟鍚戝弽杞級: {homing_mask}")
             self.user_message_fun(
-                f"状态: {positions['state'] or 'n/a'} | "
-                f"逻辑机械坐标(in): {positions['mpos'] or 'n/a'} | "
-                f"逻辑工作坐标(in): {positions['wpos'] or 'n/a'}")
+                f"鐘舵€? {positions['state'] or 'n/a'} | "
+                f"閫昏緫鏈烘鍧愭爣(in): {positions['mpos'] or 'n/a'} | "
+                f"閫昏緫宸ヤ綔鍧愭爣(in): {positions['wpos'] or 'n/a'}")
             self.user_message_fun(
-                f"物理机械坐标(in): {positions['mpos_phys'] or 'n/a'} | "
-                f"物理工作坐标(in): {positions['wpos_phys'] or 'n/a'}")
+                f"鐗╃悊鏈烘鍧愭爣(in): {positions['mpos_phys'] or 'n/a'} | "
+                f"鐗╃悊宸ヤ綔鍧愭爣(in): {positions['wpos_phys'] or 'n/a'}")
             self.user_message_fun(
-                "软件坐标映射: "
-                f"对调XY={bool(self.options.grbl_axis_swap_xy)}, "
-                f"反转X={bool(self.options.grbl_axis_invert_x)}, "
-                f"反转Y={bool(self.options.grbl_axis_invert_y)}")
+                "杞欢鍧愭爣鏄犲皠: "
+                f"瀵硅皟XY={bool(self.options.grbl_axis_swap_xy)}, "
+                f"鍙嶈浆X={bool(self.options.grbl_axis_invert_x)}, "
+                f"鍙嶈浆Y={bool(self.options.grbl_axis_invert_y)}")
             self.user_message_fun(self._describe_grbl_axis_mapping())
             self.user_message_fun(self._describe_grbl_coordinate_model())
             return
@@ -939,7 +939,7 @@ class AxiDraw(inkex.Effect):
                 if not ok_hold:
                     logger.error(gettext.gettext("Failed to stop current jog/motion."))
                     return
-            self.user_message_fun(gettext.gettext("已发送停止点动命令。"))
+            self.user_message_fun(gettext.gettext("宸插彂閫佸仠姝㈢偣鍔ㄥ懡浠ゃ€?))
             if auto_refresh:
                 _emit_status_snapshot()
             return
@@ -981,12 +981,12 @@ class AxiDraw(inkex.Effect):
             self.plot_status.grbl_settings = serial_utils.read_grbl_settings(
                 self.plot_status, timeout_s=timeout_s)
             if apply_ok:
-                self.user_message_fun(gettext.gettext("坐标轴设置已应用。"))
-                self.user_message_fun(f"已写入掩码: $3={dir_mask}, $23={home_mask}")
+                self.user_message_fun(gettext.gettext("鍧愭爣杞磋缃凡搴旂敤銆?))
+                self.user_message_fun(f"宸插啓鍏ユ帺鐮? $3={dir_mask}, $23={home_mask}")
                 self.user_message_fun(self._describe_grbl_axis_mapping())
                 self.user_message_fun(self._describe_grbl_coordinate_model())
             else:
-                logger.error(gettext.gettext("一个或多个坐标轴设置写入失败。"))
+                logger.error(gettext.gettext("涓€涓垨澶氫釜鍧愭爣杞磋缃啓鍏ュけ璐ャ€?))
             return
 
         if cmd == "walk_home":
@@ -998,7 +998,7 @@ class AxiDraw(inkex.Effect):
             if saved_origin is not None:
                 park_x, park_y = saved_origin
                 self.user_message_fun(
-                    gettext.gettext("正在回到机器原点快照（G53/机器坐标）：X={0:.3f}, Y={1:.3f}").format(
+                    gettext.gettext("姝ｅ湪鍥炲埌鏈哄櫒鍘熺偣蹇収锛圙53/鏈哄櫒鍧愭爣锛夛細X={0:.3f}, Y={1:.3f}").format(
                         park_x, park_y))
                 ok_move, _lines = serial_utils.grbl_move_machine_linear(
                     self.plot_status,
@@ -1037,7 +1037,7 @@ class AxiDraw(inkex.Effect):
             self.pen.phys.xpos = 0.0
             self.pen.phys.ypos = 0.0
             self._sync_plot_status_axis_mapping_from_options()
-            self.user_message_fun(gettext.gettext("已将当前点设置为原点。"))
+            self.user_message_fun(gettext.gettext("宸插皢褰撳墠鐐硅缃负鍘熺偣銆?))
             self.user_message_fun(self._describe_grbl_axis_mapping())
             self.user_message_fun(self._describe_grbl_coordinate_model())
             return
@@ -1078,12 +1078,12 @@ class AxiDraw(inkex.Effect):
             clipped_dx = target_x - current_x
             clipped_dy = target_y - current_y
             if abs(clipped_dx) < 1e-9 and abs(clipped_dy) < 1e-9:
-                self.user_message_fun(gettext.gettext("点动目标超出行程，已忽略。"))
+                self.user_message_fun(gettext.gettext("鐐瑰姩鐩爣瓒呭嚭琛岀▼锛屽凡蹇界暐銆?))
                 return
             speed_in_s = self.speed_penup if self.pen.phys.z_up else self.speed_pendown
             if jog_repeat > 1:
                 self.user_message_fun(gettext.gettext(
-                    "连续点动：单次 {0:.3f} mm，重复 {1} 次。").format(dist_in * 25.4, jog_repeat))
+                    "杩炵画鐐瑰姩锛氬崟娆?{0:.3f} mm锛岄噸澶?{1} 娆°€?).format(dist_in * 25.4, jog_repeat))
             current_target_x = current_x
             current_target_y = current_y
             for repeat_index in range(jog_repeat):
@@ -1093,7 +1093,7 @@ class AxiDraw(inkex.Effect):
                 step_dy = current_target_y - (self.pen.phys.ypos if self.pen.phys.ypos is not None else current_y)
                 if abs(step_dx) < 1e-9 and abs(step_dy) < 1e-9:
                     if repeat_index == 0:
-                        self.user_message_fun(gettext.gettext("连续点动已触发行程边界，停止继续发送。"))
+                        self.user_message_fun(gettext.gettext("杩炵画鐐瑰姩宸茶Е鍙戣绋嬭竟鐣岋紝鍋滄缁х画鍙戦€併€?))
                     break
                 ok, _lines = serial_utils.grbl_jog(
                     self.plot_status,
@@ -1113,10 +1113,10 @@ class AxiDraw(inkex.Effect):
             return
 
         if cmd in ("bootload", "read_name", "write_name", "list_names"):
-            logger.error(gettext.gettext("当前绘图机版插件不支持该命令。"))
+            logger.error(gettext.gettext("褰撳墠缁樺浘鏈虹増鎻掍欢涓嶆敮鎸佽鍛戒护銆?))
             return
 
-        logger.error(gettext.gettext("未识别的手动命令。"))
+        logger.error(gettext.gettext("鏈瘑鍒殑鎵嬪姩鍛戒护銆?))
 
 
     def prepare_document(self):
@@ -1186,7 +1186,7 @@ class AxiDraw(inkex.Effect):
                 """
                 # clipping involves a non-pure Python dependency (pyclipper), so only import
                 # when necessary
-                from axidrawinternal.clipping import ClipPathsProcess
+                from dynamicnestinternal.clipping import ClipPathsProcess
                 bounds = ClipPathsProcess.calculate_bounds(self.bounds, self.svg_height,\
                     self.svg_width, self.params.clip_to_page, self.rotate_page)
                 # flattening removes essential information for the clipping process
@@ -1255,7 +1255,7 @@ class AxiDraw(inkex.Effect):
                         optimize_stats["paths_before_join"] > optimize_stats["paths_after_join"]
                 ) and not self.plot_status.secondary:
                     self.user_message_fun(gettext.gettext(
-                        "路径优化：移除 {0} 个冗余节点，清理 {1} 条极短路径，合并 {2} 条近邻路径。").format(
+                        "璺緞浼樺寲锛氱Щ闄?{0} 涓啑浣欒妭鐐癸紝娓呯悊 {1} 鏉℃瀬鐭矾寰勶紝鍚堝苟 {2} 鏉¤繎閭昏矾寰勩€?).format(
                             optimize_stats["vertices_removed"],
                             optimize_stats["paths_removed"],
                             max(0, optimize_stats["paths_before_join"] - optimize_stats["paths_after_join"])))
@@ -1268,7 +1268,7 @@ class AxiDraw(inkex.Effect):
                         min_candidate_count=self.params.auto_sparse_line_min_count)
                     if sparse_stats["paths_removed"] > 0 and not self.plot_status.secondary:
                         self.user_message_fun(gettext.gettext(
-                            "自动降级已稀疏线稿：移除 {0} 条密排线，涉及 {1} 个图层。").format(
+                            "鑷姩闄嶇骇宸茬█鐤忕嚎绋匡細绉婚櫎 {0} 鏉″瘑鎺掔嚎锛屾秹鍙?{1} 涓浘灞傘€?).format(
                                 sparse_stats["paths_removed"],
                                 sparse_stats["layers_touched"]))
 
@@ -1303,7 +1303,7 @@ class AxiDraw(inkex.Effect):
                 travel_saved = max(0.0, travel_before - travel_after)
                 if travel_saved > 0.001:
                     self.user_message_fun(gettext.gettext(
-                        "路径重排：预计抬笔空走从 {0:.1f} mm 降到 {1:.1f} mm，减少 {2:.1f} mm。").format(
+                        "璺緞閲嶆帓锛氶璁℃姮绗旂┖璧颁粠 {0:.1f} mm 闄嶅埌 {1:.1f} mm锛屽噺灏?{2:.1f} mm銆?).format(
                             travel_before * 25.4,
                             travel_after * 25.4,
                             travel_saved * 25.4))
@@ -1354,7 +1354,7 @@ class AxiDraw(inkex.Effect):
                 if self._grbl_return_to_origin_after_plot_enabled():
                     self.go_to_parking_position(wait_for_completion=True)
                 else:
-                    self.user_message_fun(gettext.gettext("按当前设置，完成后不自动回工作原点。"))
+                    self.user_message_fun(gettext.gettext("鎸夊綋鍓嶈缃紝瀹屾垚鍚庝笉鑷姩鍥炲伐浣滃師鐐广€?))
 
         finally: # In case of an exception and loss of the serial port...
             pass
@@ -1507,7 +1507,7 @@ class AxiDraw(inkex.Effect):
         if saved_x is None or saved_y is None:
             return False
         self.user_message_fun(gettext.gettext(
-            "检测到图层切换，准备手动换笔。"))
+            "妫€娴嬪埌鍥惧眰鍒囨崲锛屽噯澶囨墜鍔ㄦ崲绗斻€?))
         try:
             self.pen.pen_raise(self)
             if bool(getattr(self.options, "pen_change_to_home",
@@ -1516,18 +1516,18 @@ class AxiDraw(inkex.Effect):
             if bool(getattr(self.options, "pen_change_prompt",
                             getattr(self.params, "pen_change_prompt", True))):
                 if not self.confirm_pen_change():
-                    self.user_message_fun(gettext.gettext("用户取消了换笔，已暂停绘图。"))
+                    self.user_message_fun(gettext.gettext("鐢ㄦ埛鍙栨秷浜嗘崲绗旓紝宸叉殏鍋滅粯鍥俱€?))
                     return False
             self.go_to_position(saved_x, saved_y)
             return True
         except Exception:
-            logger.error(gettext.gettext("换笔流程执行失败；为安全起见，绘图已暂停。"))
+            logger.error(gettext.gettext("鎹㈢瑪娴佺▼鎵ц澶辫触锛涗负瀹夊叏璧疯锛岀粯鍥惧凡鏆傚仠銆?))
             return False
 
     def confirm_pen_change(self):
         """Prompt user to confirm pen change and continue plotting."""
         prompt_text = gettext.gettext(
-            "请现在手动换笔，完成后点击“是”继续绘图。")
+            "璇风幇鍦ㄦ墜鍔ㄦ崲绗旓紝瀹屾垚鍚庣偣鍑烩€滄槸鈥濈户缁粯鍥俱€?)
         if self.options.mode == "interactive":
             return False
         if self.plot_status.cli_api:
@@ -1549,7 +1549,7 @@ class AxiDraw(inkex.Effect):
                 root.update_idletasks()
             except Exception:
                 pass
-            result = messagebox.askyesno("绘图机换笔", prompt_text)
+            result = messagebox.askyesno("缁樺浘鏈烘崲绗?, prompt_text)
             root.destroy()
             return result
         except Exception:
@@ -1643,7 +1643,7 @@ class AxiDraw(inkex.Effect):
         debug_invert_x = getattr(self.options, "grbl_axis_invert_x", None)
         debug_invert_y = getattr(self.options, "grbl_axis_invert_y", None)
         self.user_message_fun(
-            f"SYNC_DEBUG 参数: origin={debug_origin}, swap_xy={debug_swap}, invert_x={debug_invert_x}, invert_y={debug_invert_y}")
+            f"SYNC_DEBUG 鍙傛暟: origin={debug_origin}, swap_xy={debug_swap}, invert_x={debug_invert_x}, invert_y={debug_invert_y}")
         self.plot_status.grbl_settings = serial_utils.read_grbl_settings(
             self.plot_status,
             timeout_s=max(1.5, float(getattr(self.options, "grbl_command_timeout", 2.0)) * 1.5))
@@ -1652,20 +1652,20 @@ class AxiDraw(inkex.Effect):
         x_max_mm = self.plot_status.grbl_settings.get(130)
         y_max_mm = self.plot_status.grbl_settings.get(131)
         if not isinstance(x_max_mm, (int, float)) or not isinstance(y_max_mm, (int, float)):
-            logger.error(gettext.gettext("未能从固件读取到有效的 X/Y 物理行程。"))
+            logger.error(gettext.gettext("鏈兘浠庡浐浠惰鍙栧埌鏈夋晥鐨?X/Y 鐗╃悊琛岀▼銆?))
             return
         if x_max_mm <= 0 or y_max_mm <= 0:
-            logger.error(gettext.gettext("固件返回的物理行程无效，无法更新画布。"))
+            logger.error(gettext.gettext("鍥轰欢杩斿洖鐨勭墿鐞嗚绋嬫棤鏁堬紝鏃犳硶鏇存柊鐢诲竷銆?))
             return
 
         if not self.get_doc_props():
-            logger.error(gettext.gettext("当前文档尺寸无效，无法按机器行程更新画布。"))
+            logger.error(gettext.gettext("褰撳墠鏂囨。灏哄鏃犳晥锛屾棤娉曟寜鏈哄櫒琛岀▼鏇存柊鐢诲竷銆?))
             return
 
         old_width_mm = self.svg_width * 25.4
         old_height_mm = self.svg_height * 25.4
         if old_width_mm <= 0 or old_height_mm <= 0:
-            logger.error(gettext.gettext("当前画布尺寸无效，无法更新画布。"))
+            logger.error(gettext.gettext("褰撳墠鐢诲竷灏哄鏃犳晥锛屾棤娉曟洿鏂扮敾甯冦€?))
             return
 
         current_viewbox = self._parse_viewbox_string(self.svg.get("viewBox"))
@@ -1679,7 +1679,7 @@ class AxiDraw(inkex.Effect):
         vb_min_x, vb_min_y, vb_width, vb_height = current_viewbox
 
         if vb_width <= 0 or vb_height <= 0:
-            logger.error(gettext.gettext("当前 viewBox 无效，无法更新画布。"))
+            logger.error(gettext.gettext("褰撳墠 viewBox 鏃犳晥锛屾棤娉曟洿鏂扮敾甯冦€?))
             return
 
         wrapper = self._get_or_create_machine_sync_wrapper(current_viewbox)
@@ -1687,12 +1687,12 @@ class AxiDraw(inkex.Effect):
             wrapper.get("data-dn-sync-source-viewbox")) or current_viewbox
         src_min_x, src_min_y, src_width, src_height = source_viewbox
         if src_width <= 0 or src_height <= 0:
-            logger.error(gettext.gettext("保存的原始画布坐标无效，无法更新画布。"))
+            logger.error(gettext.gettext("淇濆瓨鐨勫師濮嬬敾甯冨潗鏍囨棤鏁堬紝鏃犳硶鏇存柊鐢诲竷銆?))
             return
 
         scale_factor = min(x_max_mm / src_width, y_max_mm / src_height)
         if scale_factor <= 0:
-            logger.error(gettext.gettext("计算整图适配比例失败。"))
+            logger.error(gettext.gettext("璁＄畻鏁村浘閫傞厤姣斾緥澶辫触銆?))
             return
 
         mapped_width = src_width * scale_factor
@@ -1781,42 +1781,42 @@ class AxiDraw(inkex.Effect):
             namedview_inkscape_units = namedview[0].get('{http://www.inkscape.org/namespaces/inkscape}document-units')
 
         self.user_message_fun(gettext.gettext(
-            "已按机器物理行程更新画布，并按当前画布坐标等比适配整图。"))
+            "宸叉寜鏈哄櫒鐗╃悊琛岀▼鏇存柊鐢诲竷锛屽苟鎸夊綋鍓嶇敾甯冨潗鏍囩瓑姣旈€傞厤鏁村浘銆?))
         self.user_message_fun(gettext.gettext(
-            "机器行程：X={0:.3f} mm, Y={1:.3f} mm；整图等比系数：{2:.3f}。").format(
+            "鏈哄櫒琛岀▼锛歑={0:.3f} mm, Y={1:.3f} mm锛涙暣鍥剧瓑姣旂郴鏁帮細{2:.3f}銆?).format(
                 x_max_mm, y_max_mm, scale_factor))
         self.user_message_fun(
-            f"SYNC_DEBUG 已切换到机器毫米坐标 viewBox=0 0 {x_max_mm:.3f} {y_max_mm:.3f}；"
+            f"SYNC_DEBUG 宸插垏鎹㈠埌鏈哄櫒姣背鍧愭爣 viewBox=0 0 {x_max_mm:.3f} {y_max_mm:.3f}锛?
             f" wrapper_scale={scale_factor:.6f}, wrapper_offset=({translate_x:.3f}, {translate_y:.3f})")
-        self.user_message_fun("SYNC_DEBUG 标记已写入 SVG: data-dn-sync-marker=2026-04-23-sync-debug-2")
+        self.user_message_fun("SYNC_DEBUG 鏍囪宸插啓鍏?SVG: data-dn-sync-marker=2026-04-23-sync-debug-2")
         self.user_message_fun(
-            f"SYNC_DEBUG 回读: width={self.svg.get('width')}, height={self.svg.get('height')}, viewBox={self.svg.get('viewBox')}, namedview_units={namedview_units}, inkscape_document_units={namedview_inkscape_units}")
+            f"SYNC_DEBUG 鍥炶: width={self.svg.get('width')}, height={self.svg.get('height')}, viewBox={self.svg.get('viewBox')}, namedview_units={namedview_units}, inkscape_document_units={namedview_inkscape_units}")
         if namedview_zoom is not None:
             self.user_message_fun(
-                f"SYNC_DEBUG 已更新视图缩放：inkscape:zoom={namedview_zoom:.6f}，目标为尽量铺满当前窗口。")
+                f"SYNC_DEBUG 宸叉洿鏂拌鍥剧缉鏀撅細inkscape:zoom={namedview_zoom:.6f}锛岀洰鏍囦负灏介噺閾烘弧褰撳墠绐楀彛銆?)
         if page_debug is not None:
-            self.user_message_fun(f"SYNC_DEBUG 页面对象回读：{page_debug}")
+            self.user_message_fun(f"SYNC_DEBUG 椤甸潰瀵硅薄鍥炶锛歿page_debug}")
         if scale_factor < 0.999:
             self.user_message_fun(gettext.gettext(
-                "当前整图已缩小以适配机器画布；若某一边仍留白，这是为了避免非等比拉伸。"))
+                "褰撳墠鏁村浘宸茬缉灏忎互閫傞厤鏈哄櫒鐢诲竷锛涜嫢鏌愪竴杈逛粛鐣欑櫧锛岃繖鏄负浜嗛伩鍏嶉潪绛夋瘮鎷変几銆?))
         elif scale_factor > 1.001:
             self.user_message_fun(gettext.gettext(
-                "当前整图已随画布放大到更接近机器工作区。"))
+                "褰撳墠鏁村浘宸查殢鐢诲竷鏀惧ぇ鍒版洿鎺ヨ繎鏈哄櫒宸ヤ綔鍖恒€?))
         else:
             self.user_message_fun(gettext.gettext(
-                "当前整图与机器画布比例接近，无需明显缩放。"))
+                "褰撳墠鏁村浘涓庢満鍣ㄧ敾甯冩瘮渚嬫帴杩戯紝鏃犻渶鏄庢樉缂╂斁銆?))
 
     def _confirm_bounds_auto_scale(self, scale_factor):
         """Prompt user to approve automatic scaling into travel bounds."""
         prompt_text = gettext.gettext(
-            f"检测到整图超出机器行程。\n"
-            f"建议先自动缩放整图后再继续绘图。\n"
-            f"本次缩放系数：{scale_factor:.3f}\n"
-            f"选择“是”将自动缩放后继续；选择“否”则取消本次绘图。")
+            f"妫€娴嬪埌鏁村浘瓒呭嚭鏈哄櫒琛岀▼銆俓n"
+            f"寤鸿鍏堣嚜鍔ㄧ缉鏀炬暣鍥惧悗鍐嶇户缁粯鍥俱€俓n"
+            f"鏈缂╂斁绯绘暟锛歿scale_factor:.3f}\n"
+            f"閫夋嫨鈥滄槸鈥濆皢鑷姩缂╂斁鍚庣户缁紱閫夋嫨鈥滃惁鈥濆垯鍙栨秷鏈缁樺浘銆?)
         if self.plot_status.cli_api:
             self.user_message_fun(prompt_text)
             try:
-                user_reply = input("是否自动缩放整图并继续？[y/N]: ").strip().lower()
+                user_reply = input("鏄惁鑷姩缂╂斁鏁村浘骞剁户缁紵[y/N]: ").strip().lower()
             except EOFError:
                 return False
             return user_reply in ("y", "yes")
@@ -1833,7 +1833,7 @@ class AxiDraw(inkex.Effect):
                 root.update_idletasks()
             except Exception:
                 pass
-            result = messagebox.askyesno("绘图越界提示", prompt_text)
+            result = messagebox.askyesno("缁樺浘瓒婄晫鎻愮ず", prompt_text)
             root.destroy()
             return result
         except Exception:
@@ -1869,7 +1869,7 @@ class AxiDraw(inkex.Effect):
         self.digest.width = self.digest.width * scale_factor
         self.digest.height = self.digest.height * scale_factor
         self.user_message_fun(gettext.gettext(
-            f"已自动缩放整图以适配机器行程，缩放系数 {scale_factor:.3f}。"))
+            f"宸茶嚜鍔ㄧ缉鏀炬暣鍥句互閫傞厤鏈哄櫒琛岀▼锛岀缉鏀剧郴鏁?{scale_factor:.3f}銆?))
         return True
 
     def plot_polyline(self, vertex_list):
@@ -1967,7 +1967,7 @@ class AxiDraw(inkex.Effect):
                 not getattr(self.plot_status, "secondary", False)
         ):
             self.user_message_fun(gettext.gettext(
-                "检测到超长单路径，已启用连续切块发送：{0} 个顶点，拆为 {1} 块，每块最多 {2} 个顶点；每 {3} 段冲刷一次发送缓冲。").format(
+                "妫€娴嬪埌瓒呴暱鍗曡矾寰勶紝宸插惎鐢ㄨ繛缁垏鍧楀彂閫侊細{0} 涓《鐐癸紝鎷嗕负 {1} 鍧楋紝姣忓潡鏈€澶?{2} 涓《鐐癸紱姣?{3} 娈靛啿鍒蜂竴娆″彂閫佺紦鍐层€?).format(
                     len(vertex_list), chunk_count, chunk_vertex_limit, flush_interval))
         for chunk_vertices in self._iter_polyline_chunks(vertex_list):
             for vertex in chunk_vertices[1:]:
@@ -2063,7 +2063,7 @@ class AxiDraw(inkex.Effect):
             timeout_s = max(5.0, float(getattr(self.options, "grbl_command_timeout", 2.0)) * 4.0)
             self.user_message_fun(
                 gettext.gettext(
-                    "正在回到工作原点：X={0:.3f}, Y={1:.3f}").format(park_x, park_y))
+                    "姝ｅ湪鍥炲埌宸ヤ綔鍘熺偣锛歑={0:.3f}, Y={1:.3f}").format(park_x, park_y))
             ok_mode, mode_lines = serial_utils.grbl_send(
                 self.plot_status,
                 "G90",
@@ -2073,7 +2073,7 @@ class AxiDraw(inkex.Effect):
                 saved_x, saved_y = self.plot_status.grbl_saved_origin_phys_in
                 self.user_message_fun(
                     gettext.gettext(
-                        "正在回到机器原点快照（G53/机器坐标）：X={0:.3f}, Y={1:.3f}").format(
+                        "姝ｅ湪鍥炲埌鏈哄櫒鍘熺偣蹇収锛圙53/鏈哄櫒鍧愭爣锛夛細X={0:.3f}, Y={1:.3f}").format(
                             saved_x, saved_y))
                 ok, move_lines = serial_utils.grbl_move_machine_linear(
                     self.plot_status,
@@ -2096,7 +2096,7 @@ class AxiDraw(inkex.Effect):
                     serial_utils.grbl_wait_idle(self.plot_status, timeout_s=timeout_s)
             else:
                 self.user_message_fun(gettext.gettext(
-                    "回工作原点动作发送失败。G90={0} {1}; MOVE={2} {3}").format(
+                    "鍥炲伐浣滃師鐐瑰姩浣滃彂閫佸け璐ャ€侴90={0} {1}; MOVE={2} {3}").format(
                         ok_mode, mode_lines, ok, move_lines))
         else:
             self.go_to_position(park_x, park_y)
@@ -2191,13 +2191,13 @@ class AxiDraw(inkex.Effect):
                         self.pen.phys.xpos = 0.0
                         self.pen.phys.ypos = 0.0
                         self._sync_plot_status_axis_mapping_from_options()
-                        self.user_message_fun(gettext.gettext("已将当前位置设为原点。"))
+                        self.user_message_fun(gettext.gettext("宸插皢褰撳墠浣嶇疆璁句负鍘熺偣銆?))
                         self.user_message_fun(self._describe_grbl_axis_mapping())
                         self.user_message_fun(self._describe_grbl_coordinate_model())
                     else:
-                        self.user_message_fun(gettext.gettext("设置当前位置为原点失败。"))
+                        self.user_message_fun(gettext.gettext("璁剧疆褰撳墠浣嶇疆涓哄師鐐瑰け璐ャ€?))
                 else:
-                    self.user_message_fun(gettext.gettext("按当前设置，连接后不自动设置工作原点。"))
+                    self.user_message_fun(gettext.gettext("鎸夊綋鍓嶈缃紝杩炴帴鍚庝笉鑷姩璁剧疆宸ヤ綔鍘熺偣銆?))
         else:
             self.plot_status.stopped = 101 # Will become exit code 101; failed to connect
 
@@ -2321,3 +2321,4 @@ if __name__ == '__main__':
     logging.basicConfig()
     e = AxiDraw()
     exit_status.run(e.affect)
+

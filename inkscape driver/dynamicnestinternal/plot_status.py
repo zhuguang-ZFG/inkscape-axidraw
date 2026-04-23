@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -30,8 +30,8 @@ import time
 from tqdm import tqdm
 from lxml import etree
 
-from axidrawinternal.plot_utils_import import from_dependency_import
-from axidrawinternal import serial_utils
+from dynamicnestinternal.plot_utils_import import from_dependency_import
+from dynamicnestinternal import serial_utils
 text_utils = from_dependency_import('plotink.text_utils')
 inkex = from_dependency_import('ink_extensions.inkex')
 ebb_motion = from_dependency_import('plotink.ebb_motion')
@@ -103,7 +103,7 @@ class ResumeStatus:
         """
         Read plot progress data, stored in a custom "plotdata" XML element
         last_x, y stored as float with mm units, but used as inch units within the software.
-        pause_dist, pause_ref stored in file as integer with µm units but used as inch units.
+        pause_dist, pause_ref stored in file as integer with 碌m units but used as inch units.
         """
         self.read = False
         data_node = None
@@ -132,7 +132,7 @@ class ResumeStatus:
         """
         Write plot progress data, stored in a custom "plotdata" XML element
         last_x, y stored as float with mm units.
-        pause_dist, pause_ref stored as integer with µm units
+        pause_dist, pause_ref stored as integer with 碌m units
         """
         if not self.written:
             for node in svg_tree.xpath("//*[self::svg:plotdata|self::plotdata]",\
@@ -142,13 +142,13 @@ class ResumeStatus:
             data_node = etree.SubElement(svg_tree, 'plotdata')
 
             if self.new.application == "":
-                self.new.application = "axidraw"  # Name of this program
+                self.new.application = "dynamicnest"  # Name of this program
             data_node.set('application', self.new.application)
             data_node.set('model', str(self.new.model))
             data_node.set('plob_version', str(self.new.plob_version ))
             data_node.set('layer', str(self.new.layer))
-            data_node.set('pause_dist', f"{round(self.new.pause_dist * 25400)}") # units µm
-            data_node.set('pause_ref',  f"{round(self.new.pause_ref * 25400)}") # units µm
+            data_node.set('pause_dist', f"{round(self.new.pause_dist * 25400)}") # units 碌m
+            data_node.set('pause_ref',  f"{round(self.new.pause_ref * 25400)}") # units 碌m
             data_node.set('last_x', f"{self.new.last_x * 25.4}") # float; units mm
             data_node.set('last_y', f"{self.new.last_y * 25.4}") # float; units mm
             data_node.set('rand_seed', f"{self.new.rand_seed}")
@@ -586,3 +586,4 @@ class PlotStatus:
         ''' Reset attributes and resume attributes to defaults '''
         self.apply_defaults()
         self.resume.reset()
+

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+<name>DynamicNest 棰勫鐞嗗鍑?/name>
+<id>command.dynamicnest.plob-output</id>
+<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+<dependency type="executable" location="extensions">dynamicnest_control.py</dependency>
+
+<param name="digest" type="int" gui-hidden="true">2</param>
+
+<param name="submode" type="notebook">
+<page name="Plot Digest Settings" gui-text="棰勫鐞嗛€夐」">
+
+<param name="model" type="optiongroup" appearance="combo" indent="1" gui-text="璁惧鏈哄瀷锛?>
+<option value="1">鏍囧噯鏈哄瀷锛堟帹鑽愶級</option>
+<option value="2">澶у箙鏈哄瀷锛圓3锛?/option>
+<option value="7">灏忓箙鏈哄瀷锛圔6锛?/option>
+<option value="4">Mini 鏈哄瀷</option>
+<option value="5">瓒呭ぇ鏈哄瀷锛圓1锛?/option>
+<option value="6">澶ф満鍨嬶紙A2锛?/option>
+<option value="3">XL 鎵╁睍鏈哄瀷</option>
+</param>
+
+<spacer />
+
+<param indent="1" name="mode" type="optiongroup" appearance="combo" gui-text="鍥惧眰澶勭悊锛?>
+<option value="plot">鍖呭惈鎵€鏈夊浘灞?/option>
+<option value="layers">浠呭寘鍚寚瀹氬浘灞?..</option>
+</param>
+<param indent="5" name="layer" type="int" min="0" max="1000"
+gui-text="鎸囧畾鍥惧眰缂栧彿锛?>1</param>
+
+<spacer />
+
+<param indent="1" name="reordering" type="optiongroup" appearance="combo" gui-text="缁樺浘浼樺寲锛?>
+<option value="0">鏈€浣庯紱浠呰繛鎺ョ浉閭昏矾寰?/option>
+<option value="1">鍩虹锛涘苟閲嶆帓璺緞鎻愬崌閫熷害</option>
+<option value="2">瀹屾暣锛涘苟鍏佽璺緞鍙嶅悜</option>
+<option value="4">鏃狅紱涓ユ牸淇濇寔鏂囦欢椤哄簭</option>
+</param>
+<param indent="5" name="auto_rotate" type="bool" gui-text="缁樺浘鏃惰嚜鍔ㄦ棆杞〉闈?>true</param>	
+<param indent="5" name="random_start" type="bool" gui-text="闂悎璺緞璧风偣闅忔満鍖?>false</param>
+<param indent="5" name="hiding" type="bool" gui-text="闅愯棌绾垮幓闄?>false</param>
+
+<spacer />
+<spacer />
+<label indent="6">鐗堟湰 3.9.4銆傜増鏉冩墍鏈?2023 Evil Mad Scientist</label>
+
+</page>
+
+<page name="help" gui-text="鍏充簬">
+<label indent="1">
+Plot Digest锛堢畝绉?鈥淧lob鈥濓級鏄?SVG 鐨勪竴涓簿绠€瀛愰泦锛?
+浼氬幓闄ゆ牱寮忎俊鎭苟杞崲涓洪€傚悎 DynamicNest Technology 璁惧浣跨敤鐨勬牸寮忋€?
+</label>
+<label indent="1">
+鐢熸垚 Plob 灞炰簬鐮村潖鎬у鐞嗐€傝鍔″繀鍙﹀瓨涓哄壇鏈紝
+骞朵繚鐣欏師濮嬪彲缂栬緫鏂囨。銆?
+</label>
+<spacer />
+<label indent="1">
+DynamicNest Technology 鎺у埗杞欢鍦ㄧ粯鍥惧墠浼氬厛鎶婃枃妗ｉ澶勭悊涓?Plob 鏍煎紡銆?
+璇ヨ繃绋嬩細绉婚櫎涓嶅弬涓庣粯鍥剧殑鍥惧眰/瀵硅薄鍙婂叏閮ㄦ牱寮忎俊鎭紝
+骞跺皢鏂囨。瑁佸壀鍒扮粯鍥惧尯锛屽悓鏃跺簲鐢ㄤ紭鍖栥€?
+</label>
+<label indent="1">
+閽堝鐗瑰畾璁惧鏈哄瀷鐢熸垚鐨?Plob 鏂囨。锛屽湪涓嶅啀缂栬緫鐨勬儏鍐典笅锛?
+鍙敱鐩稿悓鐗堟湰鐨?DynamicNest Technology 鎺у埗杞欢鐩存帴缁樺浘锛屾棤闇€鍐嶆棰勫鐞嗐€?
+杩欏湪棰戠箒鍚姩鎴栫画璺戞椂鍙妭鐪佸ぇ閲忔椂闂淬€?
+</label>
+
+<spacer />
+
+<label indent="1">
+瀵煎嚭 Plob 鍦ㄦ煇浜涘満鏅緢鏈夊府鍔╋紝渚嬪澶勭悊瓒呭ぇ鏂囦欢鏃讹紝
+鍙皢鈥滈澶勭悊闃舵鈥濅笌鈥滆繍鍔ㄦ帶鍒堕樁娈碘€濆垎绂汇€?
+</label>
+</page>
+
+</param>
+
+<output>
+        <extension>.svg</extension>
+        <mimetype>image/svg+xml</mimetype>
+        <filetypename>DynamicNest Technology 鈥淧lob鈥?缁樺浘鎽樿 (*.svg)</filetypename>
+        <filetypetooltip>DynamicNest Technology 浣跨敤鐨?Plob 鏂囦欢</filetypetooltip>
+        <savecopyonly>true</savecopyonly>
+</output>
+
+<script>
+<command location="extensions" interpreter="python">dynamicnest_control.py</command>
+</script>
+
+</inkscape-extension>
+
+

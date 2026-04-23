@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -29,8 +29,8 @@ Requires Python 3.7 or newer.
 import re
 import time
 import gettext
-from axidrawinternal.plot_utils_import import from_dependency_import
-from axidrawinternal.axidraw_options import versions as ad_versions
+from dynamicnestinternal.plot_utils_import import from_dependency_import
+from dynamicnestinternal.axidraw_options import versions as ad_versions
 
 ebb_serial = from_dependency_import('plotink.ebb_serial')  # https://github.com/evil-mad/plotink
 ebb_motion = from_dependency_import('plotink.ebb_motion')
@@ -97,7 +97,7 @@ def _bluetooth_record_rank(record):
     score = 0
     if "localmfg&0000" in hwid:
         score += 50
-    if "standard serial" in description or "标准串行" in description:
+    if "standard serial" in description or "鏍囧噯涓茶" in description:
         score += 0
     if device.startswith("com"):
         try:
@@ -180,7 +180,7 @@ def _connect_grbl(options, plot_status, message_fun, logger):
     except Exception:
         baud_rate = 115200
     if baud_rate < 300:
-        message_fun("检测到异常波特率参数 {}，已自动回退到 115200。".format(requested_baud))
+        message_fun("妫€娴嬪埌寮傚父娉㈢壒鐜囧弬鏁?{}锛屽凡鑷姩鍥為€€鍒?115200銆?.format(requested_baud))
         baud_rate = 115200
     timeout_s = float(getattr(options, "grbl_command_timeout", 2.0))
     handshake_timeout_s = max(3.0, timeout_s)
@@ -294,7 +294,7 @@ def _connect_grbl(options, plot_status, message_fun, logger):
                 if getattr(options, "grbl_auto_fetch", True) and not plot_status.grbl_is_bluetooth:
                     plot_status.grbl_settings = read_grbl_settings(plot_status, timeout_s=handshake_timeout_s)
                 elif getattr(options, "grbl_auto_fetch", True) and plot_status.grbl_is_bluetooth:
-                    message_fun("检测到蓝牙串口，已跳过自动读取全部固件设置，避免连接卡顿。")
+                    message_fun("妫€娴嬪埌钃濈墮涓插彛锛屽凡璺宠繃鑷姩璇诲彇鍏ㄩ儴鍥轰欢璁剧疆锛岄伩鍏嶈繛鎺ュ崱椤裤€?)
                 grbl_reset_stream_state(plot_status, clear_io=True)
                 _grbl_drain_incoming(plot_status)
 
@@ -314,15 +314,15 @@ def _connect_grbl(options, plot_status, message_fun, logger):
     else:
         message_fun(_("Failed to connect to any Grbl controller."))
     if busy_ports:
-        message_fun("串口被占用：{}。请关闭串口监视器、其他绘图/调试程序后重试。".format(
+        message_fun("涓插彛琚崰鐢細{}銆傝鍏抽棴涓插彛鐩戣鍣ㄣ€佸叾浠栫粯鍥?璋冭瘯绋嬪簭鍚庨噸璇曘€?.format(
             ", ".join(busy_ports)))
     elif handshake_fail_ports:
-        message_fun("已找到串口但握手失败：{}。设备可能刚复位、固件忙碌，或被其他程序短暂占用。".format(
+        message_fun("宸叉壘鍒颁覆鍙ｄ絾鎻℃墜澶辫触锛歿}銆傝澶囧彲鑳藉垰澶嶄綅銆佸浐浠跺繖纰岋紝鎴栬鍏朵粬绋嬪簭鐭殏鍗犵敤銆?.format(
             ", ".join(handshake_fail_ports)))
     elif discovered_ports:
-        message_fun("当前检测到的串口：{}。".format(", ".join(discovered_ports)))
+        message_fun("褰撳墠妫€娴嬪埌鐨勪覆鍙ｏ細{}銆?.format(", ".join(discovered_ports)))
     if last_error:
-        message_fun("最近一次连接错误：{}。".format(last_error))
+        message_fun("鏈€杩戜竴娆¤繛鎺ラ敊璇細{}銆?.format(last_error))
     return False
 
 
@@ -337,7 +337,7 @@ def sanitize_grbl_option_defaults(options, message_fun=None):
     except Exception:
         slow_feed = 0.0
     if slow_feed < 0.0:
-        _emit("检测到异常低速落笔速度参数 {}，已回退到 0 mm/min。".format(
+        _emit("妫€娴嬪埌寮傚父浣庨€熻惤绗旈€熷害鍙傛暟 {}锛屽凡鍥為€€鍒?0 mm/min銆?.format(
             getattr(options, "grbl_pen_down_slow_feed", slow_feed)))
         options.grbl_pen_down_slow_feed = 0.0
 
@@ -346,7 +346,7 @@ def sanitize_grbl_option_defaults(options, message_fun=None):
     except Exception:
         settle_ms = 0
     if settle_ms < 0:
-        _emit("检测到异常落笔缓冲参数 {}，已回退到 0 ms。".format(
+        _emit("妫€娴嬪埌寮傚父钀界瑪缂撳啿鍙傛暟 {}锛屽凡鍥為€€鍒?0 ms銆?.format(
             getattr(options, "grbl_pen_down_settle_ms", settle_ms)))
         options.grbl_pen_down_settle_ms = 0
 
@@ -1237,3 +1237,4 @@ def grbl_write_setting(plot_status, setting_id, value, timeout_s=2.0):
     command = f"${int(setting_id)}={value}"
     ok, _lines = grbl_send(plot_status, command, expect_ok=True, timeout_s=timeout_s)
     return ok
+

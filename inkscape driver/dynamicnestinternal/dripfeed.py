@@ -1,4 +1,4 @@
-#
+﻿#
 # Copyright 2023 Windell H. Oskay, Evil Mad Scientist Laboratories
 #
 # This program is free software; you can redistribute it and/or modify
@@ -31,8 +31,8 @@ import logging
 import time
 import gettext
 
-from axidrawinternal.plot_utils_import import from_dependency_import # plotink
-from axidrawinternal import serial_utils
+from dynamicnestinternal.plot_utils_import import from_dependency_import # plotink
+from dynamicnestinternal import serial_utils
 ebb_serial = from_dependency_import('plotink.ebb_serial')  # https://github.com/evil-mad/plotink
 ebb_motion = from_dependency_import('plotink.ebb_motion')
 plot_utils = from_dependency_import('plotink.plot_utils')
@@ -210,3 +210,4 @@ def page_layer_delay(ad_ref, between_pages=True, delay_ms=None):
         time_remaining -= sleep_interval
     ad_ref.plot_status.progress.close_sub()
     delay_between_copies = False
+

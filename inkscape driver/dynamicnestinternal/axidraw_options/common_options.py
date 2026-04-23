@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 
 from ink_extensions import inkex
 
@@ -371,3 +371,4 @@ def core_mode_options(config):
                         help="Copies to plot, or 0 for continuous plotting. Default: 1")
 
     return options
+
